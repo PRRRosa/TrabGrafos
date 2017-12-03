@@ -47,7 +47,7 @@ void printVertices(Vertice *vertices, int tamanho){
             cout << " ";
         cout << vertices[indice].distanciaOrigem;
     }
-    cout << "}" << endl;
+    cout << "}" << endl << endl;
 }
 
 //atualiza as distancias entre as arestas e a aresta referencia

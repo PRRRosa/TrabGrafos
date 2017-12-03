@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
 #include "grafos.h"
 #include "vertice.h"
 
@@ -12,6 +14,16 @@ void inicializaNuvem(Vertice *vertices, int tamanho){
     }
 }
 
+void printNuvem(Vertice *vertice, int tamanho){
+    cout << "Nuvem: { ";
+    for(int indice = 0; indice < tamanho; indice++){
+        if(vertice[indice].nuvem){
+            cout << " "<<indice;
+        }
+    }
+    cout << " }" << endl;
+}
+
 //retorna true caso encontre uma aresta marcada como nao visitada
 //caso nao encontre, retorna false
 bool temArestasNaoVisitadas(Vertice *vertices, int tamanho){
@@ -22,7 +34,9 @@ bool temArestasNaoVisitadas(Vertice *vertices, int tamanho){
     return false;
 }
 
-
+void printDistanciaOrigem(Vertice *vertice, int vert){
+        cout << "Distancia de " << vert << " e " << vertice[vert].distanciaOrigem << endl;
+}
 int dijkstra(Grafo graf, int source, int target){
     Vertice vertices[100]; //array com as distanciaOrigem para o source
     int verticeAux, temp;
@@ -37,6 +51,10 @@ int dijkstra(Grafo graf, int source, int target){
             inicializaVertices(vertices, graf, source);
             vertices[source].nuvem = true; //marca como nuvem
             verticeAux = source;
+
+            printDistanciaOrigem(vertices, source);
+            printNuvem(vertices, graf.numVertices);
+            printVertices(vertices, graf.numVertices);
             while(vertices[target].nuvem == false &&
                     temArestasNaoVisitadas(vertices, graf.numVertices)){
 
@@ -46,6 +64,11 @@ int dijkstra(Grafo graf, int source, int target){
                     verticeAux = temp;
                     vertices[verticeAux].nuvem = true; //marca como nuvem
                     atualizaDistancias(vertices,graf, verticeAux);
+
+
+                    printDistanciaOrigem(vertices, verticeAux);
+                    printNuvem(vertices, graf.numVertices);
+                    printVertices(vertices, graf.numVertices);
                 }
                 else{return -1;}
 
@@ -67,7 +90,7 @@ int main() {
 
     //abre arquivo
     ifstream arquivo;
-    arquivo.open("Insts/inst1.dat");
+    arquivo.open("inst22n.dat");
 
     if(arquivo.fail()){
         cerr << "Falha ao abrir o arquivo!\n";
@@ -79,7 +102,7 @@ int main() {
     arquivo.close();
 
     int source = 0, target = 0;
-    cout << "Encontrar distância mínima entre: " << endl;
+    cout << "Encontrar distancia minima entre: " << endl;
     cout << "source: ";
     cin >> source;
     cout << "target: ";
@@ -88,10 +111,10 @@ int main() {
     distancia =  dijkstra(graf, source, target);
 
     if(distancia == -1){
-        cout << "A distância entre os vertices é infinita" << endl;
+        cout << "A distancia entre os vertices e infinita" << endl;
     }
     else {
-        cout << "A distância mínima entre " << source << " e " << target << " é " << distancia << endl;
+        cout << "A distancia minima entre " << source << " e " << target << " e " << distancia << endl;
     }
 
     return 0;
