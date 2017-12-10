@@ -35,14 +35,17 @@ bool temArestasNaoVisitadas(Vertice *vertices, int tamanho){
     return false;
 }
 
-void printDistanciaOrigem(Vertice *vertice, int vert){
-        cout << "Distancia de " << vert << " e " << vertice[vert].distanciaOrigem << endl;
+void printDistanciaOrigem(Vertice *vertice, int vert, int x){
+        cout << "Distancia de " << x << " e "<< vert << " eh " << vertice[vert].distanciaOrigem << endl;
 }
 int dijkstra(Grafo graf, int source, int target, int modo){
     Vertice vertices[100]; //array com as distanciaOrigem para o source
-    int verticeAux, temp;
+    int verticeAux, temp, x;
     inicializaNuvem(vertices, graf.numVertices);
-
+    x = source;
+    if (modo == 2){
+        cout <<"***AVISO: Lista de prioridades mostrada de 0 a n visulizada como 'vertices'***" << endl;
+    }
     if(source < graf.numVertices && target < graf.numVertices){
         if(source == target){
             return 0;
@@ -54,7 +57,7 @@ int dijkstra(Grafo graf, int source, int target, int modo){
             verticeAux = source;
 
             if (modo == 2){ //se estiver no modo passo a passo
-                printDistanciaOrigem(vertices, source);
+                printDistanciaOrigem(vertices, source,x);
                 printNuvem(vertices, graf.numVertices);
                 printVertices(vertices, graf.numVertices);
             }
@@ -70,7 +73,7 @@ int dijkstra(Grafo graf, int source, int target, int modo){
                     atualizaDistancias(vertices,graf, verticeAux);
 
                     if (modo == 2){     //se estiver no modo passo a passo
-                        printDistanciaOrigem(vertices, verticeAux);
+                        printDistanciaOrigem(vertices, verticeAux,x);
                         printNuvem(vertices, graf.numVertices);
                         printVertices(vertices, graf.numVertices);
                     }
@@ -91,7 +94,7 @@ int resultado(Grafo graf, int source, int target, int modo){
     int distancia;
     distancia =  dijkstra(graf, source, target,modo);
     if(distancia == -1){
-        cout << "A distancia entre os vertices e infinita" << endl;
+        cout << "A distancia entre os vertices eh infinita" << endl;
     }
     else {
         cout << "A distancia minima entre " << source << " e " << target << " eh " << distancia << endl;
